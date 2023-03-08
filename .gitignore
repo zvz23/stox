@@ -1,4 +1,5 @@
 output_path
 venv
 *.db
-db.py
+.env
+__pycache__

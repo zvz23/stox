@@ -7,6 +7,9 @@ from selenium.webdriver.common.by import By
 import selenium.webdriver.support.expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.wait import WebDriverWait
+import csv
+import io
+import db
 
 
 HEADERS = {
@@ -46,21 +49,20 @@ def main():
         EC.presence_of_element_located((By.XPATH, "//button[contains(text(), 'Done')]"))
     )
     done_button.click()
-    time.sleep(5)
+    time.sleep(2)
     more_button = driver.find_element(By.ID, "moreAction")
     save_button = driver.find_element(By.ID, "vexpss")
     hover = ActionChains(driver).click(more_button).move_to_element(save_button)
     hover.perform()
-    time.sleep(5)
+    time.sleep(2)
     selector = parsel.Selector(text=driver.page_source)
     download_link = selector.xpath("//a[@id='vexpss']/@href").get()
     file_name = selector.xpath("//span[@class='Display']/text()").get().split(' - ')[0].strip()
     response = requests.get(BASE_URL + download_link)
-    file_path = os.path.join(OUTPUT_PATH, f'{file_name}.csv')
-    with open(file_path, 'wb') as f:
-        for data in response.iter_content(128):
-            f.write(data)
-    driver.quit()
+    strio = io.StringIO(response.text)
+    reader = csv.DictReader(strio)
+    for r in reader:
+        db.save_lead(list(r.values()))
 
 if __name__ == '__main__':
     main()
