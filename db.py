@@ -4,14 +4,9 @@ import os
 
 load_dotenv()
 
-SERVER = os.environ.get('SERVER')
-DATABASE=os.environ.get('DATABASE')
-USERNAME=os.environ.get('USERNAMEDB')
-PASSWORD=os.environ.get('PASSWORD')
-DRIVER=os.environ.get('DRIVER')
 
 
-CONNECTION_STRING = "<CONNECTION STRING HERE>"
+CONNECTION_STRING = os.environ.get('CONNECTION_STRING')
 def save_lead(lead_datas):
     with pyodbc.connect(CONNECTION_STRING) as conn:
         with conn.cursor() as cursor:
