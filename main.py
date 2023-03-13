@@ -1,7 +1,6 @@
 import requests
 import time
 import parsel
-import os
 import undetected_chromedriver as uc
 from selenium.webdriver.common.by import By
 import selenium.webdriver.support.expected_conditions as EC
@@ -10,6 +9,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 import csv
 import io
 import db
+from sheets import update_sheet
 
 
 HEADERS = {
@@ -54,12 +54,23 @@ def main():
     time.sleep(2)
     selector = parsel.Selector(text=driver.page_source)
     download_link = selector.xpath("//a[@id='vexpss']/@href").get()
-    file_name = selector.xpath("//span[@class='Display']/text()").get().split(' - ')[0].strip()
     response = requests.get(BASE_URL + download_link)
+    with open('test.csv', 'wb') as f:
+        for data in response.iter_content(128):
+            f.write(data)
+
     strio = io.StringIO(response.text)
     reader = csv.DictReader(strio)
-    for r in reader:
-        db.save_lead(list(r.values()))
+    rows = []
+    for row in reader:
+        stox_id = row['STOX#'].strip()
+        if not db.is_stox_exists(stox_id):
+            rows.append(list(row.values()))
+            db.save_stox(stox_id)
+        else:
+            print("ALREADY EXISTS")
+    print(len(rows))
+    update_sheet(rows)
 
 if __name__ == '__main__':
     main()

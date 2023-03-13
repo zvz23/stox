@@ -1,5 +1,6 @@
 output_path
 venv
-*.db
 .env
 __pycache__
+*.json
+*.csv
