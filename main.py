@@ -20,9 +20,6 @@ HEADERS = {
 
 START_URL = 'https://stox.quickbase.com/db/bk42uehek?a=q&qid=10'
 BASE_URL = 'https://stox.quickbase.com/db/'
-OUTPUT_PATH = "D:\Ziegfred\Fiverr\stox\output_path"
-if not os.path.exists(OUTPUT_PATH):
-    os.mkdir(OUTPUT_PATH)
 
 
 def main():
