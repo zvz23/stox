@@ -46,8 +46,8 @@ def update_sheet(rows):
             }
         }
         gc = gspread.authorize(creds)
-        sheet_name = 'Mortgage Surplus Mastersheet'
-        sh = gc.open(sheet_name)
+        spreadsheet_name = 'Mortgage Surplus Mastersheet'
+        sh = gc.open(spreadsheet_name)
         worksheet = sh.get_worksheet(0)
         worksheet.append_rows(rows)
 

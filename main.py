@@ -67,9 +67,6 @@ def main():
         if not db.is_stox_exists(stox_id):
             rows.append(list(row.values()))
             db.save_stox(stox_id)
-        else:
-            print("ALREADY EXISTS")
-    print(len(rows))
     update_sheet(rows)
 
 if __name__ == '__main__':
