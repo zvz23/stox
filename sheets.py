@@ -46,37 +46,14 @@ def update_sheet(rows):
             }
         }
         gc = gspread.authorize(creds)
-        sheet_name = 'MAINSHEET'
+        sheet_name = 'Mortgage Surplus Mastersheet'
         sh = gc.open(sheet_name)
         worksheet = sh.get_worksheet(0)
-        # values_list = worksheet.row_values(1)
         worksheet.append_rows(rows)
 
 
 
 
-        # request = service.spreadsheets().create(body=spreadsheet_body)
-        # response = request.execute()
-
-        # TODO: Change code below to process the `response` dict:
-        # pprint(response)
-        # Call the Sheets API
-        # sheet = service.spreadsheets()
-        # result = sheet.values().get(spreadsheetId=SAMPLE_SPREADSHEET_ID,
-        #                             range=SAMPLE_RANGE_NAME).execute()
-        # values = result.get('values', [])
-
-        # if not values:
-        #     print('No data found.')
-        #     return
-
-        # print('Name, Major:')
-        # for row in values:
-        #     # Print columns A and E, which correspond to indices 0 and 4.
-        #     print('%s, %s' % (row[0], row[4]))
     except HttpError as err:
         print(err)
 
-
-if __name__ == '__main__':
-    main()
