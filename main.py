@@ -9,7 +9,14 @@ from selenium.webdriver.support.wait import WebDriverWait
 import csv
 import io
 import db
-from sheets import update_sheet
+import os
+from sheets import append_rows
+from dotenv import load_dotenv
+
+load_dotenv()
+
+SPREADSHEET_ID = os.environ.get('SPREADSHEET_ID')
+
 
 
 HEADERS = {
@@ -67,7 +74,9 @@ def main():
         if not db.is_stox_exists(stox_id):
             rows.append(list(row.values()))
             db.save_stox(stox_id)
-    update_sheet(rows)
+    append_rows(SPREADSHEET_ID,'Sheet1', rows)
+    
+
 
 if __name__ == '__main__':
     main()
