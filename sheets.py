@@ -46,7 +46,7 @@ def update_sheet(rows):
             }
         }
         gc = gspread.authorize(creds)
-        sheet_name = 'Sample Sheet From API'
+        sheet_name = 'MAINSHEET'
         sh = gc.open(sheet_name)
         worksheet = sh.get_worksheet(0)
         # values_list = worksheet.row_values(1)
